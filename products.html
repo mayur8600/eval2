@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #database{
+            display:grid;
+            grid-template-columns: 20% 20% 20% 20%;
+            height:300px;
+            justify-content: center;
+            grid-gap: 20px;
+        }
+        img {
+            width:100%;
+            height:300px;
+        }
+        img:hover {
+            /* src: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/668d30af-b513-4a6f-b2e0-8eb89626166b/air-vapormax-2021-fk-shoe-dTnvq3.png' */
+            width: 110%;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="sortLH()">SortLH</button>
+    <button onclick="sortHL()">SortHL</button>
+    <button onclick="filter()">Filter</button>
+    <button onclick="cart()">Cart Items</button>
+    <div id="database"></div>
+</body>
+</html>
+<script>
+var products = [
+        {
+            name: 'nike',
+            price: '2000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike1',
+            price: '4000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike2',
+            price: '3000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike3',
+            price: '1000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike4',
+            price: '4000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike5',
+            price: '7000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike6',
+            price: '2000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike7',
+            price: '9000',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+        {
+            name: 'nike8',
+            price: '1200',
+            img: 'https://i.pinimg.com/736x/1f/7a/e5/1f7ae53e2559bf3bc9885a7e67255339.jpg'
+        },
+    ]
+
+    if(localStorage.getItem('products') == null){
+        localStorage.setItem('products',JSON.stringify(products))
+    }
+
+    function appendData(data){
+        let data_div = document.getElementById('database');
+        data_div.innerHTML == null;
+
+        data.forEach(function(element){
+            let div = document.createElement('div');
+
+            let img = document.createElement('img');
+            img.src = element.img;
+
+            let p_name = document.createElement('p');
+            p_name.innerHTML = `Name: ${element.name}`;
+
+            let p_price = document.createElement('p');
+            p_price.innerHTML = `Price: ${element.price}`;
+
+            let btn = document.createElement('button');
+            btn.innerHTML = 'Add to Cart'
+            btn.addEventListener('click',function(){
+                addtoCart(element)
+            })
+
+            div.append(img, p_name, p_price, btn);
+            data_div.append(div)
+        })
+    }
+    appendData(JSON.parse(localStorage.getItem('products')))
+
+    function sortLH(){
+        let products = JSON.parse(localStorage.getItem('products'));
+
+        products = products.sort(function (a,b) {
+            return (a.price - b.price)
+        })
+        appendData(products)
+    }
+    function sortHL(){
+        let products = JSON.parse(localStorage.getItem('products'));
+
+        products = products.sort(function (a,b) {
+            return (b.price - a.price)
+        })
+        appendData(products)
+    }
+    function addtoCart(array){
+        let arr;
+        arr = localStorage.getItem('cart');
+        if(arr == null){
+            arr = [];
+        }
+        else{
+            arr = JSON.parse(localStorage.getItem('cart'))
+        }
+        arr.push(array);
+        alert('Item Added to cart')
+        localStorage.setItem('cart',JSON.stringify(arr));
+
+    }
+    function cart(){
+
+        window.location.href= 'cart.html'
+    }
+</script>
